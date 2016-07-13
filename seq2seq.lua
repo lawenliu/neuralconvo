@@ -13,7 +13,8 @@ end
 
 function Seq2Seq:buildModel()
   self.encoder = nn.Sequential()
-  self.encoder:add(nn.LookupTableMaskZero(self.vocabSize, self.hiddenSize))
+  self.eLookupLayer = nn.LookupTableMaskZero(self.vocabSize, self.hiddenSize)
+  self.encoder:add(self.eLookupLayer)
   
   self.encLstmLayers = {}
   for i=1,self.numLayers do
@@ -31,7 +32,9 @@ function Seq2Seq:buildModel()
   self.encoder:add(nn.Select(1,-1))
 
   self.decoder = nn.Sequential()
-  self.decoder:add(nn.LookupTableMaskZero(self.vocabSize, self.hiddenSize))
+  self.dLookupLayer = nn.LookupTableMaskZero(self.vocabSize, self.hiddenSize)
+  self.decoder:add(self.dLookupLayer)
+  self.dLookupLayer.weight:set(self.eLookupLayer.weight)
   
   self.decLstmLayers = {}
   for i=1,self.numLayers do
