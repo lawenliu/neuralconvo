@@ -87,6 +87,8 @@ _(Disclaimer: nonsensical responses have been removed.)_
    ```
    
    To train with opencl install the lastest Opencl torch lib:
+   Please install Opencl from here: https://github.com/hughperkins/distro-cl
+   The following commands are not supported anymore by Opencl.
 
    ```sh
    luarocks install cltorch
